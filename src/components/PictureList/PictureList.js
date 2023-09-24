@@ -3,6 +3,7 @@ import "./pictureList.css";
 import { usePictureData } from "../../hooks/usePictureData";
 import SearchBox from "../SearchBox/SearchBox";
 import axios from "axios";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 function PictureList() {
   const { data, isLoading, isError, error } = usePictureData();
@@ -30,31 +31,77 @@ function PictureList() {
       <SearchBox onSearch={setSearchItem} />
       {searchItem ? (
         <div className="picture-list">
-          <ul className="picture-grid-list">
-            {searchedPic.data?.results.map((picture, index) => (
-              <li key={index}>
-                <img
-                  src={picture.urls.small}
-                  alt="office"
-                  className="pic-self"
-                />
-              </li>
-            ))}
-          </ul>
+          <DragDropContext>
+            <Droppable droppableId="picture">
+              {(provided) => (
+                <ul
+                  className="picture-grid-list"
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                >
+                  {searchedPic.data?.results.map((picture, index) => (
+                    <Draggable
+                      key={picture.id}
+                      draggableId={picture.id}
+                      index={index}
+                    >
+                      {(provided) => (
+                        <li
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                          ref={provided.innerRef}
+                        >
+                          <img
+                            src={picture.urls.small}
+                            alt="office"
+                            className="pic-self"
+                          />
+                        </li>
+                      )}
+                    </Draggable>
+                  ))}
+                  {provided.placeholder}
+                </ul>
+              )}
+            </Droppable>
+          </DragDropContext>
         </div>
       ) : (
         <div className="picture-list">
-          <ul className="picture-grid-list">
-            {data?.data.map((picture, index) => (
-              <li key={index}>
-                <img
-                  src={picture.urls.small}
-                  alt="office"
-                  className="pic-self"
-                />
-              </li>
-            ))}
-          </ul>
+          <DragDropContext>
+            <Droppable droppableId="pictures">
+              {(provided) => (
+                <ul
+                  className="picture-grid-list"
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                >
+                  {data?.data.map((picture, index) => (
+                    <Draggable
+                      key={picture.id}
+                      draggableId={picture.id}
+                      index={index}
+                    >
+                      {(provided) => (
+                        <li
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                          ref={provided.innerRef}
+                        >
+                          <img
+                            src={picture.urls.small}
+                            alt="office"
+                            className="pic-self"
+                          />
+                        </li>
+                      )}
+                    </Draggable>
+                  ))}
+                  {provided.placeholder}
+                </ul>
+              )}
+            </Droppable>
+          </DragDropContext>
         </div>
       )}
     </>
