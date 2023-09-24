@@ -2,10 +2,11 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import "./searchBox.css";
 
-function SearchBox() {
+function SearchBox({ onSearch }) {
   const { register, handleSubmit } = useForm();
 
   const handleSearchSubmit = (data) => {
+    onSearch(data.search);
     console.log(data.search);
   };
   return (
