@@ -16,7 +16,7 @@ function SearchBox({ onSearch }) {
           type="text"
           className="search__input"
           id="search"
-          placeholder="Type picture search term ..."
+          placeholder="Search for anything that comes to mind ..."
           {...register("search")}
         />
         <button className="search__button">
