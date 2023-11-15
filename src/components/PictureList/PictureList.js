@@ -28,6 +28,7 @@ function PictureList() {
   if (isError) return <h1>{error.message}</h1>;
   return (
     <>
+      <h1 className="primary-heading">Image Search</h1>
       <SearchBox onSearch={setSearchItem} />
       {searchItem ? (
         <div className="picture-list">
